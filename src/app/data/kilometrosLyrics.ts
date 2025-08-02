@@ -38,6 +38,6 @@ export const kilometrosLyrics = [
   { time: 148.029, text: "Pero antes muerto que dejar de soñar" },
   { time: 154.504, text: "Pero antes muerto que dejar de soñar" },
   { time: 167.232, text: "Y nos despedimos, hasta la próxima" },
-  { time: 172.425, text: "Contunuamos nuestro viaje que nos llevará a quién sabe dónde" },
+  { time: 172.425, text: "Continuamos nuestro viaje que nos llevará a quién sabe dónde" },
   { time: 175.621, text: "¡Muchas gracias, y hasta pronto!" },
 ];

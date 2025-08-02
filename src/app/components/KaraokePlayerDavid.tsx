@@ -12,12 +12,24 @@ import { useEffect, useRef, useState } from 'react';
 import { kilometrosLyrics } from '@/app/data/kilometrosLyrics';
 
 export default function KaraokePlayerDavid() {
+  const lineRefs = useRef<(HTMLParagraphElement | null)[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
   const [currentLine, setCurrentLine] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(1);
+
+  useEffect(() => {
+    const currentRef = lineRefs.current[currentLine];
+    if (currentRef) {
+      currentRef.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [currentLine]);
+
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -81,11 +93,11 @@ export default function KaraokePlayerDavid() {
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md space-y-6">
+    <div className="flex flex-col items-center w-full max-w-md mx-auto py-12 px-4 space-y-6 bg-black min-h-screen">
       <audio ref={audioRef} src="/audio/kilometros.mp3" preload="metadata" />
 
       {/* Controles */}
-      <div className="w-full flex flex-col gap-3">
+      <div className="w-full flex flex-col gap-3 bg-white/10 p-6 rounded-xl shadow-md">
         <div className="flex items-center justify-center gap-6">
           <button onClick={() => audioRef.current!.currentTime -= 10}>
             <SkipBack className="w-6 h-6 text-white/80" />
@@ -137,28 +149,45 @@ export default function KaraokePlayerDavid() {
         </div>
       </div>
 
+      {/* GIF */}
       <div className="mt-6">
         <img
           src="/images/dance-duck.gif"
           alt="Patito bailando"
-          className="w-32 h-auto mx-auto rounded-xl shadow-lg"
+          className="w-40 h-auto mx-auto rounded-xl shadow-lg"
         />
       </div>
 
       {/* Letras */}
-      <div className="text-center space-y-1 mt-6">
-        {kilometrosLyrics.map((line, index) => (
-          <p
-            key={index}
-            className={`transition-all duration-300 ${index === currentLine
+      <div className="text-center mt-6 px-2 h-60 overflow-y-auto space-y-1">
+        <div className="text-center space-y-1 mt-6 px-2">
+          {kilometrosLyrics.map((line, index) => (
+            <p
+              key={index}
+              ref={(el) => {
+                lineRefs.current[index] = el;
+              }}
+              className={`transition-all duration-300 ${index === currentLine
                 ? 'text-white font-bold text-lg'
                 : 'text-white/50 text-sm'
-              }`}
-          >
-            {line.text}
-          </p>
-        ))}
+                }`}
+            >
+              {line.text}
+            </p>
+          ))}
+
+        </div>
       </div>
+      {/* GIF */}
+      <div className="mt-6">
+        <img
+          src="/images/load-loading.gif"
+          alt="Patito bailando2"
+          className="w-40 h-auto mx-auto rounded-xl shadow-lg"
+        />
+      </div>
+
     </div>
   );
+
 }

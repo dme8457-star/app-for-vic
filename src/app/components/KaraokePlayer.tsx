@@ -55,11 +55,7 @@ export default function KaraokePlayer() {
 
   const togglePlay = () => {
     if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
-    }
+    isPlaying ? audioRef.current.pause() : audioRef.current.play();
     setIsPlaying(!isPlaying);
   };
 
@@ -80,21 +76,17 @@ export default function KaraokePlayer() {
   };
 
   const formatTime = (time: number): string => {
-    const mins = Math.floor(time / 60)
-      .toString()
-      .padStart(2, '0');
-    const secs = Math.floor(time % 60)
-      .toString()
-      .padStart(2, '0');
+    const mins = Math.floor(time / 60).toString().padStart(2, '0');
+    const secs = Math.floor(time % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
 
   return (
-    <div className="flex flex-col items-center w-full max-w-md space-y-6">
+    <div className="flex flex-col items-center w-full max-w-md mx-auto py-12 px-4 space-y-6 bg-pink-100 min-h-screen">
       <audio ref={audioRef} src="/audio/journey.mp3" preload="metadata" />
 
-      {/* Controles */}
-      <div className="w-full flex flex-col gap-3">
+      {/* Controles - estilo card */}
+      <div className="w-full flex flex-col gap-3 bg-white/30 p-6 rounded-xl shadow-md">
         <div className="flex items-center justify-center gap-6">
           <button onClick={() => audioRef.current!.currentTime -= 10}>
             <SkipBack className="w-6 h-6 text-pink-800" />
@@ -112,7 +104,7 @@ export default function KaraokePlayer() {
           </button>
         </div>
 
-        {/* Tiempo y barra de progreso */}
+        {/* Tiempo y progreso */}
         <div className="w-full flex flex-col items-center gap-1">
           <input
             type="range"
@@ -146,7 +138,8 @@ export default function KaraokePlayer() {
         </div>
       </div>
 
-        <div className="mt-6">
+      {/* GIF */}
+      <div className="mt-6">
         <img
           src="/images/hello-kiyty-cute.gif"
           alt="hello kitty"
@@ -154,8 +147,8 @@ export default function KaraokePlayer() {
         />
       </div>
 
-      {/* Letras */}
-      <div className="text-center space-y-1 mt-6">
+      {/* Letras con scroll */}
+      <div className="text-center mt-6 px-2 h-60 overflow-y-auto space-y-1">
         {journeyLyrics.map((line, index) => (
           <p
             key={index}
@@ -168,6 +161,15 @@ export default function KaraokePlayer() {
             {line.text}
           </p>
         ))}
+      </div>
+
+      {/* GIF */}
+      <div className="mt-6">
+        <img
+          src="/images/kuromi-dance-melody-dance.gif"
+          alt="hello kitty2"
+          className="w-32 h-auto mx-auto rounded-xl"
+        />
       </div>
     </div>
   );
